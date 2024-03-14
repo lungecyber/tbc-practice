@@ -11,7 +11,7 @@ resource "aws_s3_bucket" "bucket" {
     }
 }
 
-resource "aws_s3_bucket_policy" "allow_access_from_another_account" {
+resource "aws_s3_bucket_policy" "bucket-cloudfront-access-policy" {
     bucket = aws_s3_bucket.bucket.id
 
     policy = <<EOT
