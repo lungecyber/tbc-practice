@@ -8,7 +8,8 @@ resource "aws_vpc" "vpc" {
 
 resource "aws_internet_gateway" "igw" {
   tags = {
-    Name = "${var.project}-${var.environment}-igw"
+    Name        = "${var.project}-${var.environment}-igw"
+    Environment = "${var.environment}"
   }
 }
 
@@ -21,7 +22,8 @@ resource "aws_route_table" "rt" {
     vpc_id = aws_vpc.vpc.id
 
     tags   = {
-        Name = "${var.project}-${var.environment}-rt"
+        Name        = "${var.project}-${var.environment}-rt"
+        Environment = "${var.environment}"
     }
 }
 

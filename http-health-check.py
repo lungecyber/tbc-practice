@@ -5,10 +5,6 @@ import boto3
 
 
 class TBCHttpHealthChecker:
-    primary_server_failed_health_check_count = 0
-    primary_server_successful_health_check_count = 0
-    primary_server_is_healthy = True
-
     def __init__(
             self,
             healthy_threshold_count: int,
@@ -28,6 +24,9 @@ class TBCHttpHealthChecker:
         self.failover_server_instance_id = failover_server_instance_id
         self.eip_allocation_id = eip_allocation_id
         self.failover_server_security_group_id = failover_server_security_group_id
+        self.primary_server_failed_health_check_count = 0
+        self.primary_server_successful_health_check_count = 0
+        self.primary_server_is_healthy = True
 
     def health_check(self, server_ip):
         try:
