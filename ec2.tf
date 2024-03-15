@@ -21,9 +21,6 @@ resource "aws_instance" "web-1" {
                 #!/bin/bash
                 sudo apt update
                 sudo apt install -y nginx
-                sudo apt install python3-requests -y
-                sudo apt install python3-schedule -y
-                sudo apt install python3-boto3 -y
                 sudo service nginx enable
                 sudo service nginx start
                 EOF
