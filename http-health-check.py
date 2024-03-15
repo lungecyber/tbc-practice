@@ -2,6 +2,7 @@ import requests
 import schedule
 import time
 import boto3
+# import subprocess
 
 
 class TBCHttpHealthChecker:
@@ -27,6 +28,28 @@ class TBCHttpHealthChecker:
         self.primary_server_failed_health_check_count = 0
         self.primary_server_successful_health_check_count = 0
         self.primary_server_is_healthy = True
+
+    # @staticmethod
+    # def execute_bash_command(bash_command):
+    #     try:
+    #         process = subprocess.Popen(
+    #             bash_command,
+    #             shell=True,
+    #             stdout=subprocess.PIPE,
+    #             stderr=subprocess.PIPE
+    #         )
+
+    #         output, error = process.communicate()
+
+    #         print("Output:", output.decode("utf-8"))
+    #         print("Errors:", error.decode("utf-8"))
+
+    #         exit_code = process.returncode
+    #         print("Exit Code:", exit_code)
+
+    #     except Exception as e:
+    #         print("An error occurred:", str(e))
+
 
     def health_check(self, server_ip):
         try:
@@ -132,10 +155,12 @@ class TBCHttpHealthChecker:
         if self.primary_server_is_healthy and not self.has_elastic_ip_association(self.primary_server_instance_id):
             self.switch_elastic_ip_association(self.primary_server_instance_id, self.eip_allocation_id)
             self.revoke_security_group_http_traffic(self.failover_server_security_group_id)
+            # self.execute_bash_command('terraform --auto-approve -var "failover_server_is_active=false"')
 
         if not self.primary_server_is_healthy and not self.has_elastic_ip_association(self.failover_server_instance_id):
             self.switch_elastic_ip_association(self.failover_server_instance_id, self.eip_allocation_id)
             self.authorize_security_group_http_traffic(self.failover_server_security_group_id)
+            # self.execute_bash_command('terraform --auto-approve -var "failover_server_is_active=true"')
 
         self.health_check(self.get_ec2_ip_address(self.primary_server_instance_id))
 
