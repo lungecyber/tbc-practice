@@ -7,3 +7,8 @@ variable "project" {
 variable "environment" {
     type = string
 }
+
+variable "failover_server_is_active" {
+    type    = bool
+    default = false
+}

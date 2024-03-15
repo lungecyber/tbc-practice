@@ -68,6 +68,6 @@ resource "aws_subnet" "subnet-2" {
 }
 
 resource "aws_eip" "eip" {
-    instance = aws_instance.web-1.id
+    instance = var.failover_server_is_active ? aws_instance.web-2.id : aws_instance.web-1.id
     domain   = "vpc"
 }

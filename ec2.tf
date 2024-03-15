@@ -114,6 +114,16 @@ resource "aws_vpc_security_group_ingress_rule" "web-2-sg-inbound-ssh" {
     security_group_id = aws_security_group.web-2-sg.id
 }
 
+resource "aws_vpc_security_group_ingress_rule" "web-2-sg-inbound-http" {
+    count             = var.failover_server_is_active ? 1 : 0
+    cidr_ipv4         = "0.0.0.0/0"
+    description       = "Allow HTTP Traffic"
+    from_port         = 80
+    to_port           = 80
+    ip_protocol       = "tcp"
+    security_group_id = aws_security_group.web-2-sg.id
+}
+
 resource "aws_vpc_security_group_egress_rule" "web-2-sg-outbound-all" {
   security_group_id = aws_security_group.web-2-sg.id
 
